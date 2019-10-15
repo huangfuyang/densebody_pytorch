@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from smpl_torch_batch import SMPLModel
 import numpy as np
 import pickle 
