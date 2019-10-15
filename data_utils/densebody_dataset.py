@@ -7,12 +7,13 @@ import pickle
 import os
 from torchvision import transforms
 from PIL import Image
+from params import *
 
 # TODO: Change the global directory to where you normally hold the datasets.
 # I use both Windows PC and Linux Server for this project so I have two dirs.
 
 windows_root = 'D:/data'
-linux_root = '/backup1/lingboyang/data'
+linux_root = ROOT_PATH
 data_root = linux_root if platform == 'linux' else windows_root
 
 im_trans = transforms.Compose([
@@ -45,7 +46,6 @@ IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'bmp', 'tiff']
 class DenseBodyDataset(Dataset):
     def __init__(self, data_root=data_root, uv_map='radvani', dataset_name='human36m', 
         annotation = 'h36m.pickle', phase='train', train_test_split=0.8, max_size=-1, device=None, transform=im_trans):
-        
         super(DenseBodyDataset, self).__init__()
         # Set image transforms and device
         self.device = torch.device('cuda') if device is None else device
@@ -54,9 +54,9 @@ class DenseBodyDataset(Dataset):
 
         self.im_root = '{}/{}_washed'.format(data_root, dataset_name)
         if not os.path.isdir(self.im_root):
-            raise(FileNotFoundError('{} dataset not found, '.format(dataset_name) + 
+            raise(FileNotFoundError('{} dataset not found, '.format(dataset_name) +
                 'please run "data_washing.py" first'))
-        
+
         # parse annotation
         self.itemlist = []
         if phase == 'in_the_wild':
@@ -68,15 +68,15 @@ class DenseBodyDataset(Dataset):
             self.im_names = im_names
             self.length = len(self.im_names)
             self.itemlist = ['im_names']
-        else:            
+        else:
             self.uv_root = '{}/{}_UV_map_{}'.format(data_root, dataset_name, uv_map)
             if not os.path.isdir(self.uv_root):
-                raise(FileNotFoundError('{} uv map not found, '.format(uv_map) + 
+                raise(FileNotFoundError('{} uv map not found, '.format(uv_map) +
                     'please run "create_dataset.py" first'))
-        
+
             with open(self.im_root + '/' + annotation, 'rb') as f:
                 tmp = pickle.load(f)
-                
+
             # Prepare train/test split
             total_length = tmp['pose'].shape[0]
             split_point = int(train_test_split * total_length)
@@ -89,10 +89,10 @@ class DenseBodyDataset(Dataset):
                 elif phase == 'test':
                     data = data[split_point:total_length]
                     cur_length = total_length - split_point
-                
+
                 if 0 < max_size < cur_length:
                     data = data[:max_size]
-                
+
                 if k == 'imagename':
                     self.im_names = [self.im_root + s for s in data]
                     self.uv_names = [self.uv_root + s for s in data]
@@ -101,7 +101,7 @@ class DenseBodyDataset(Dataset):
                 else:
                     setattr(self, k, data)
                     self.itemlist.append(k)
-            
+
             self.length = self.pose.shape[0]
 
     @staticmethod

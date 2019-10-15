@@ -1,0 +1,1 @@
+ROOT_PATH = '/home/hfy/data/h36mtoy'

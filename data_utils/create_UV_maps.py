@@ -16,12 +16,14 @@ from skimage.draw import circle
 from procrustes import map_3d_to_2d
 from uv_map_generator import UV_Map_Generator
 
+from params import *
+
 class Human36MWashedDataset(Dataset):
     def __init__(self, smpl, max_item=312188, root_dir=None, 
             annotation='h36m.pickle', calc_mesh=False):
         super(Human36MWashedDataset, self).__init__()
         if root_dir is None:            
-            root_dir = '/backup1/lingboyang/data/human36m_washed' \
+            root_dir = ROOT_PATH+'/human36m_washed' \
                 if platform == 'linux' \
                 else 'D:/data/human36m_washed'
             
@@ -101,7 +103,7 @@ def visualize(folder, imagenames, mesh_2d, joints_2d, root=None):
     
 def create_UV_maps(UV_label_root=None, uv_prefix = 'radvani_template'):
     if platform == 'linux':
-        os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+        os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     
     data_type = torch.float32
     device=torch.device('cuda')
@@ -196,9 +198,9 @@ def create_UV_maps(UV_label_root=None, uv_prefix = 'radvani_template'):
 
 if __name__ == '__main__':
     # Please make sure the prefix is the same as in train.py opt.uv_prefix
-    # prefix = 'radvani_template'
+    prefix = 'radvani_template'
     # prefix = 'vbml_close_template'
-    prefix = 'vbml_spaced_template'
+    # prefix = 'vbml_spaced_template'
     create_UV_maps(uv_prefix=prefix)
     # create_UV_maps(uv_prefix='radvani_new_template')
     # create_UV_maps(uv_prefix='smpl_fbx_template')

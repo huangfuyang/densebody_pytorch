@@ -17,7 +17,7 @@ def TestOptions(debug=False):
     # dataset options    
     # platform specific options
     windows_root = 'D:/data' 
-    linux_root = '/backup1/lingboyang/data'  # change to you dir
+    linux_root = '/home/hfy/data/h36mtoy'  # change to you dir
     data_root = linux_root if platform == 'linux' else windows_root
     num_threads = 0
     batch_size = 1
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     # Change this to your gpu id.
     # The program is fixed to run on a single GPU
     if platform == 'linux':
-        os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+        os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     
     opt = TestOptions(debug=False)
     dataset = DenseBodyDataset(data_root=opt.data_root, dataset_name=opt.dataset, 

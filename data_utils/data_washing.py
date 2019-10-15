@@ -11,15 +11,15 @@ from cv2 import imread, imwrite
 from skimage.transform import resize
 from skimage.draw import circle
 from tqdm import tqdm
-
+from params import *
 from torch.utils.data import Dataset, DataLoader
 
 class DataWasher():
     def __init__(self, data_type=torch.float32, max_item=312188, root_dir=None, 
-            annotation='annotation_large.h5', out_im_size=256):
+            annotation='annot.h5', out_im_size=256):
         super(DataWasher, self).__init__()
         if root_dir is None:            
-            root_dir = '/backup1/lingboyang/data/human36m' \
+            root_dir = ROOT_PATH \
                 if platform == 'linux' \
                 else 'D:/data/human36m'
             
@@ -187,7 +187,7 @@ class DataWasher():
         
 if __name__ == '__main__':
     np.random.seed(9608)
-    root_dir = None  # Change this to your human36m dataset path
+    root_dir =  ROOT_PATH # Change this to your human36m dataset path
     datawasher = DataWasher(root_dir=root_dir)
     datawasher._strip_non_square_images()
     datawasher.data_augmentation()

@@ -262,7 +262,13 @@ class UV_Map_Generator():
             v_min = np.amin(verts, axis=0, keepdims=True)
             v_max = np.amax(verts, axis=0, keepdims=True)
             rgbs = (verts - v_min) / np.maximum(eps, v_max - v_min)
-        
+
+
+        print(len(self.vt_to_v))
+        print(self.texcoords.shape[0])
+        # vt_to = [int(i) for i in self.vt_to_v.keys()]
+        # print(max(vt_to))
+        # vt_id = [self.vt_to_v[i] for i in range(90)]
         vt_id = [self.vt_to_v[i] for i in range(self.texcoords.shape[0])]
         img = np.zeros((self.h, self.w, 3), dtype=rgbs.dtype)
         uvs = (self.texcoords * np.array([[self.h - 1, self.w - 1]])).astype(np.int)
@@ -421,12 +427,12 @@ class UV_Map_Generator():
 if __name__ == '__main__':
     # test render module
     # change this to the same as in train.py opt.uv_prefix
-    # file_prefix = 'radvani_template'
+    file_prefix = 'radvani_template'
     #file_prefix = 'vbml_close_template'
     #file_prefix = 'vbml_spaced_template'
-    file_prefix = 'smpl_fbx_template'
+    # file_prefix = 'smpl_fbx_template'
     generator = UV_Map_Generator(
-        UV_height=512,
+        UV_height=256,
         UV_pickle=file_prefix+'.pickle'
     )
     test_folder = 'smpl_512'

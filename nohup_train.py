@@ -16,7 +16,7 @@ def TrainOptions(debug=False):
     # dataset options    
     # platform specific options
     windows_root = 'D:/data' 
-    linux_root = '/backup1/lingboyang/data'  # change to you dir
+    linux_root = '/data/human36m/hm36uv'  # change to you dir
     data_root = linux_root if platform == 'linux' else windows_root
     num_threads = 4 if platform == 'linux' else 0
     batch_size = 8 if platform == 'linux' else 4
