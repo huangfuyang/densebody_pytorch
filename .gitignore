@@ -108,14 +108,14 @@ unit_tests/
 checkpoints/
 results/
 data_utils/_test_cache*/
-#*.obj
+*.obj
 *.out
 !data_utils/SMPL_template_UV_map.obj
 *.pth
 *.pkl
 *.xyz
-#*.npy
-#*.pickle
+*.npy
+*.pickle
 *.zip
 *.bak
 *idea/
